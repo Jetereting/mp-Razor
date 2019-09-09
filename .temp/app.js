@@ -1,6 +1,7 @@
 import Taro, { Component } from "@tarojs/taro-h5";
 
 import 'taro-ui/dist/style/index.scss';
+import 'animate.css';
 import './app.scss';
 // 如果需要在 h5 环境中开启 React Devtools
 // 取消以下注释：

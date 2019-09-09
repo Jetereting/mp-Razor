@@ -14,13 +14,18 @@ export default class Index extends Component {
      * 提示和声明 navigationBarTextStyle: 'black' | 'white' 类型冲突, 需要显示声明类型
      */
     config: Config = {
-        navigationBarTitleText: '首页'
+        navigationBarTitleText: '剃头推子'
     }
 
     componentWillMount() {
         this.state.clickAudio.src = 'http://gxjs.online/ogg/click.ogg'
         this.state.soundAudio.src = 'http://gxjs.online/ogg/sound01.ogg'
         this.state.soundAudio.loop = true
+        if (Taro.getSystemInfoSync().windowHeight > 588) {
+            this.state.imgBaseClassName = 'imgBG588 '
+        } else {
+            this.state.imgBaseClassName = 'imgBGFull '
+        }
     }
 
     componentDidMount() {
@@ -41,9 +46,12 @@ export default class Index extends Component {
 
     state = {
         isOn: false,
-        imgBGClassName: 'imgBG',
+        imgBaseClassName: '',
+        imgBGClassName: '',
         clickAudio: Taro.createInnerAudioContext(),
         soundAudio: Taro.createInnerAudioContext(),
+        intervalVibrate: setInterval(() => {
+        }, 111400),
     }
 
     handleSwitch = () => {
@@ -54,13 +62,14 @@ export default class Index extends Component {
             if (this.state.isOn) {
                 this.state.soundAudio.play()
                 this.setState({
-                    imgBGClassName: 'animated infinite headShake faster'
+                    imgBGClassName: 'animated infinite headShake faster',
+                    intervalVibrate: setInterval(() => Taro.vibrateLong(), 400)
                 })
-                setInterval(() => Taro.vibrateLong(), 400)
             } else {
                 this.setState({
                     imgBGClassName: ''
                 })
+                clearInterval(this.state.intervalVibrate)
                 this.state.soundAudio.pause()
             }
         }, 100)
@@ -70,16 +79,11 @@ export default class Index extends Component {
         })
 
     }
-    handleAnimationEnd = ()=>{
-        this.setState({
-            selected: ''
-        });
-    }
 
     render() {
         return (
             <View className='index'>
-                <Image className={'imgBG '+this.state.imgBGClassName} onAnimationEnd={this.handleAnimationEnd.bind(this)}
+                <Image className={this.state.imgBaseClassName + this.state.imgBGClassName}
                        src={this.state.isOn ? imgOn : imgOff}
                        onClick={this.handleSwitch.bind(this)}/>
             </View>

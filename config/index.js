@@ -71,7 +71,7 @@ const config = {
     }
   },
   h5: {
-    publicPath: './',
+    publicPath: '/',
     staticDirectory: 'static',
     module: {
       postcss: {

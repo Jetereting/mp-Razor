@@ -17,9 +17,10 @@ export default class Index extends Component {
 
     this.state = {
       isOn: false,
-      imgBGClassName: 'imgBG',
+      imgBGClassName: '',
       clickAudio: Taro.createInnerAudioContext(),
-      soundAudio: Taro.createInnerAudioContext()
+      soundAudio: Taro.createInnerAudioContext(),
+      intervalVibrate: setInterval(() => console.log('开始'), 400)
     };
   }
   componentWillMount() {
@@ -33,11 +34,11 @@ export default class Index extends Component {
   componentDidHide() {}
   render() {
     return <View className="index">
-                <Image className={'imgBG ' + this.state.imgBGClassName} onAnimationEnd={this.handleAnimationEnd.bind(this)} src={this.state.isOn ? imgOn : imgOff} onClick={this.handleSwitch.bind(this)} />
+                <Image className={'imgBG ' + this.state.imgBGClassName} src={this.state.isOn ? imgOn : imgOff} onClick={this.handleSwitch.bind(this)} />
             </View>;
   }
   config = {
-    navigationBarTitleText: '首页'
+    navigationBarTitleText: '剃头推子'
   };
   handleSwitch = () => {
     // debugger
@@ -46,23 +47,20 @@ export default class Index extends Component {
       if (this.state.isOn) {
         this.state.soundAudio.play();
         this.setState({
-          imgBGClassName: 'animated infinite headShake faster'
+          imgBGClassName: 'animated infinite headShake faster',
+          intervalVibrate: setInterval(() => Taro.vibrateLong(), 400)
         });
-        setInterval(() => Taro.vibrateLong(), 400);
       } else {
         this.setState({
           imgBGClassName: ''
         });
+        clearInterval(this.state.intervalVibrate);
         this.state.soundAudio.pause();
       }
+      this.state.clickAudio.stop();
     }, 100);
     this.setState({
       isOn: !this.state.isOn
-    });
-  };
-  handleAnimationEnd = () => {
-    this.setState({
-      selected: ''
     });
   };
 }
