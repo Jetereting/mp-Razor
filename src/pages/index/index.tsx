@@ -26,27 +26,22 @@ export default class Index extends Component {
         navigationBarTitleText: '剃头推子'
     }
 
-    private clickAudio:InnerAudioContext
-    private soundAudio:InnerAudioContext
+    private clickAudio: InnerAudioContext
+    private soundAudio: InnerAudioContext
 
     componentWillMount() {
         //不与其他音频混播,静音模式仍可播放
         Taro.setInnerAudioOption({
-            mixWithOther:false,
-            obeyMuteSwitch:false
+            mixWithOther: false,
+            obeyMuteSwitch: false
         })
-        this.clickAudio=Taro.createInnerAudioContext()
-        this.soundAudio=Taro.createInnerAudioContext()
+        this.clickAudio = Taro.createInnerAudioContext()
+        this.soundAudio = Taro.createInnerAudioContext()
         this.clickAudio.src = 'http://gxjs.online/razor/mp3/click.mp3'
         this.soundAudio.src = 'http://gxjs.online/razor/mp3/sound01.mp3'
-        this.clickAudio.obeyMuteSwitch=false
-        this.soundAudio.obeyMuteSwitch=false
+        this.clickAudio.obeyMuteSwitch = false
+        this.soundAudio.obeyMuteSwitch = false
         this.soundAudio.loop = true
-        if (Taro.getSystemInfoSync().windowHeight > 588) {
-            this.state.imgBaseClassName = 'imgBG588 '
-        } else {
-            this.state.imgBaseClassName = 'imgBGFull '
-        }
     }
 
     constructor() {
@@ -55,7 +50,6 @@ export default class Index extends Component {
 
     state = {
         isOn: false,
-        imgBaseClassName: '',
         imgBGClassName: '',
         intervalVibrate: setInterval(() => {
         }, 111400),
@@ -89,7 +83,8 @@ export default class Index extends Component {
     render() {
         return (
             <View className='index'>
-                <Image className={this.state.imgBaseClassName + this.state.imgBGClassName}
+                <Image className={this.state.imgBGClassName}
+                       style={'height:' + Taro.getSystemInfoSync().windowHeight * 0.8 + 'PX;margin-top:7%;width:' + Taro.getSystemInfoSync().windowHeight * 0.8 * 0.345 + "PX"}
                        src={this.state.isOn ? imgOn : imgOff}
                        onClick={this.handleSwitch.bind(this)}/>
             </View>
