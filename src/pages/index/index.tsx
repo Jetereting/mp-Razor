@@ -1,8 +1,17 @@
-import Taro, {Component, Config} from '@tarojs/taro'
+import Taro, {Component, Config, InnerAudioContext} from '@tarojs/taro'
 import {View, Image} from '@tarojs/components'
 import './index.scss'
 import imgOn from '../../assets/images/on.jpg'
 import imgOff from '../../assets/images/off.jpg'
+import imgIcon from '../../assets/images/icon.png'
+import withShare from "../../utils/withShare";
+
+// @ts-ignore
+@withShare({
+    title: '模拟剃头，启动后将手机轻轻放在恶搞对象的后颈，慢慢往上，肆意享受对方的惊恐与惊喜吧',
+    imageUrl: imgIcon,
+    path: '/pages/index/index'
+})
 
 export default class Index extends Component {
 
@@ -17,27 +26,27 @@ export default class Index extends Component {
         navigationBarTitleText: '剃头推子'
     }
 
+    private clickAudio:InnerAudioContext
+    private soundAudio:InnerAudioContext
+
     componentWillMount() {
-        this.state.clickAudio.src = 'http://gxjs.online/ogg/click.ogg'
-        this.state.soundAudio.src = 'http://gxjs.online/ogg/sound01.ogg'
-        this.state.soundAudio.loop = true
+        //不与其他音频混播,静音模式仍可播放
+        Taro.setInnerAudioOption({
+            mixWithOther:false,
+            obeyMuteSwitch:false
+        })
+        this.clickAudio=Taro.createInnerAudioContext()
+        this.soundAudio=Taro.createInnerAudioContext()
+        this.clickAudio.src = 'http://gxjs.online/razor/mp3/click.mp3'
+        this.soundAudio.src = 'http://gxjs.online/razor/mp3/sound01.mp3'
+        this.clickAudio.obeyMuteSwitch=false
+        this.soundAudio.obeyMuteSwitch=false
+        this.soundAudio.loop = true
         if (Taro.getSystemInfoSync().windowHeight > 588) {
             this.state.imgBaseClassName = 'imgBG588 '
         } else {
             this.state.imgBaseClassName = 'imgBGFull '
         }
-    }
-
-    componentDidMount() {
-    }
-
-    componentWillUnmount() {
-    }
-
-    componentDidShow() {
-    }
-
-    componentDidHide() {
     }
 
     constructor() {
@@ -48,19 +57,16 @@ export default class Index extends Component {
         isOn: false,
         imgBaseClassName: '',
         imgBGClassName: '',
-        clickAudio: Taro.createInnerAudioContext(),
-        soundAudio: Taro.createInnerAudioContext(),
         intervalVibrate: setInterval(() => {
         }, 111400),
     }
 
     handleSwitch = () => {
-        // debugger
-        this.state.clickAudio.play()
+        this.clickAudio.play()
 
         setTimeout(() => {
             if (this.state.isOn) {
-                this.state.soundAudio.play()
+                this.soundAudio.play()
                 this.setState({
                     imgBGClassName: 'animated infinite headShake faster',
                     intervalVibrate: setInterval(() => Taro.vibrateLong(), 400)
@@ -70,7 +76,7 @@ export default class Index extends Component {
                     imgBGClassName: ''
                 })
                 clearInterval(this.state.intervalVibrate)
-                this.state.soundAudio.pause()
+                this.soundAudio.pause()
             }
         }, 100)
 
