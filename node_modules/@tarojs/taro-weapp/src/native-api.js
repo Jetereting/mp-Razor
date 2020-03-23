@@ -8,29 +8,33 @@ import {
 import { cacheDataSet, cacheDataGet } from './data-cache'
 import { queryToJson, getUniqueKey } from './util'
 const RequestQueue = {
-  MAX_REQUEST: 5,
+  MAX_REQUEST: 10,
   queue: [],
+  pendingQueue: [],
+
   request (options) {
-    this.push(options)
-    // 返回request task
+    this.queue.push(options)
     return this.run()
   },
 
-  push (options) {
-    this.queue.push(options)
-  },
-
   run () {
-    if (!this.queue.length) {
-      return
-    }
-    if (this.queue.length <= this.MAX_REQUEST) {
-      let options = this.queue.shift()
-      let completeFn = options.complete
-      options.complete = (...args) => {
-        completeFn && completeFn.apply(options, args)
+    if (!this.queue.length) return
+
+    while (this.pendingQueue.length < this.MAX_REQUEST) {
+      const options = this.queue.shift()
+      let successFn = options.success
+      let failFn = options.fail
+      options.success = (...args) => {
+        this.pendingQueue = this.pendingQueue.filter(item => item !== options)
         this.run()
+        successFn && successFn.apply(options, args)
       }
+      options.fail = (...args) => {
+        this.pendingQueue = this.pendingQueue.filter(item => item !== options)
+        this.run()
+        failFn && failFn.apply(options, args)
+      }
+      this.pendingQueue.push(options)
       return wx.request(options)
     }
   }
@@ -109,7 +113,7 @@ function processApis (taro) {
           return wx[key](options)
         }
 
-        if (key === 'navigateTo' || key === 'redirectTo' || key === 'switchTab') {
+        if (key === 'navigateTo' || key === 'redirectTo') {
           let url = obj['url'] ? obj['url'].replace(/^\//, '') : ''
           if (url.indexOf('?') > -1) url = url.split('?')[0]
 
@@ -167,6 +171,12 @@ function processApis (taro) {
           p.progress = cb => {
             if (task) {
               task.onProgressUpdate(cb)
+            }
+            return p
+          }
+          p.headersReceived = cb => {
+            if (task) {
+              task.onHeadersReceived(cb)
             }
             return p
           }
@@ -237,6 +247,14 @@ function wxCloud (taro) {
   taro.cloud = wxcloud
 }
 
+function wxEnvObj (taro) {
+  const wxEnv = wx.env || {}
+  const taroEnv = {}
+  const envList = ['USER_DATA_PATH']
+  envList.forEach(key => taroEnv[key] = wxEnv[key])
+  taro.env = taroEnv
+}
+
 export default function initNativeApi (taro) {
   processApis(taro)
   taro.request = link.request.bind(link)
@@ -249,4 +267,5 @@ export default function initNativeApi (taro) {
   taro.pxTransform = pxTransform.bind(taro)
   taro.canIUseWebp = canIUseWebp
   wxCloud(taro)
+  wxEnvObj(taro)
 }

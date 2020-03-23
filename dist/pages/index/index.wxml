@@ -1,0 +1,5 @@
+<block wx:if="{{$taroCompReady}}">
+    <view class="index">
+        <image class="{{imgBGClassName}}" style="{{anonymousState__temp}}" src="{{isOn ? imgOn : imgOff}}" bindtap="handleSwitch" data-e-tap-so="this"></image>
+    </view>
+</block>

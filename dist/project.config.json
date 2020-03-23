@@ -1,0 +1,15 @@
+{
+	"projectname": "Razor",
+	"description": "剃头推子",
+	"appid": "wxa62f997d08479f03",
+	"setting": {
+		"urlCheck": true,
+		"es6": false,
+		"postcss": false,
+		"minified": false
+	},
+	"compileType": "miniprogram",
+	"simulatorType": "wechat",
+	"simulatorPluginLibVersion": {},
+	"condition": {}
+}

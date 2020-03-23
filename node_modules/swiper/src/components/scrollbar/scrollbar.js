@@ -89,7 +89,7 @@ const Scrollbar = {
     } else {
       $el[0].style.display = '';
     }
-    if (swiper.params.scrollbar.hide) {
+    if (swiper.params.scrollbarHide) {
       $el[0].style.opacity = 0;
     }
     Utils.extend(scrollbar, {

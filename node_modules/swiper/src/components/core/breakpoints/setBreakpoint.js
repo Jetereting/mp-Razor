@@ -28,12 +28,7 @@ export default function () {
     }
 
     const breakpointParams = breakpointOnlyParams || swiper.originalParams;
-    const directionChanged = breakpointParams.direction && breakpointParams.direction !== params.direction;
-    const needsReLoop = params.loop && (breakpointParams.slidesPerView !== params.slidesPerView || directionChanged);
-
-    if (directionChanged && initialized) {
-      swiper.changeDirection();
-    }
+    const needsReLoop = params.loop && (breakpointParams.slidesPerView !== params.slidesPerView);
 
     Utils.extend(swiper.params, breakpointParams);
 
@@ -51,7 +46,6 @@ export default function () {
       swiper.updateSlides();
       swiper.slideTo((activeIndex - loopedSlides) + swiper.loopedSlides, 0, false);
     }
-
     swiper.emit('breakpoint', breakpointParams);
   }
 }

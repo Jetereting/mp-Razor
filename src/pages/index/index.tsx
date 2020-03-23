@@ -37,8 +37,11 @@ export default class Index extends Component {
         })
         this.clickAudio = Taro.createInnerAudioContext()
         this.soundAudio = Taro.createInnerAudioContext()
-        this.clickAudio.src = 'http://gxjs.online/razor/mp3/click.mp3'
-        this.soundAudio.src = 'http://gxjs.online/razor/mp3/sound01.mp3'
+        // this.clickAudio.src = 'http://gxjs.online/razor/mp3/click.mp3'
+        // this.soundAudio.src = 'http://gxjs.online/razor/mp3/sound01.mp3'
+
+        this.clickAudio.src = '../../assets/mp3/click.mp3'
+        this.soundAudio.src = '../../assets/mp3/sound01.mp3'
         this.clickAudio.obeyMuteSwitch = false
         this.soundAudio.obeyMuteSwitch = false
         this.soundAudio.loop = true

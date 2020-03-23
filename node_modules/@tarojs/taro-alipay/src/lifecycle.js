@@ -95,16 +95,16 @@ function injectContextType (component) {
   const ctxType = component.constructor.contextType
   if (ctxType) {
     const context = ctxType.context
-    const emiter = context.emiter
-    if (emiter === null) {
+    const emitter = context.emitter
+    if (emitter === null) {
       component.context = context._defaultValue
       return
     }
     if (!component._hasContext) {
       component._hasContext = true
-      emiter.on(_ => enqueueRender(component))
+      emitter.on(_ => enqueueRender(component))
     }
-    component.context = emiter.value
+    component.context = emitter.value
   }
 }
 
@@ -205,6 +205,7 @@ function doUpdate (component, prevProps, prevState) {
 
       if (component['$$hasLoopRef']) {
         Current.current = component
+        Current.index = 0
         component._disableEffect = true
         component._createData(component.state, component.props, true)
         component._disableEffect = false
@@ -217,6 +218,7 @@ function doUpdate (component, prevProps, prevState) {
     } else if (component.$componentType === 'PAGE' && component['$$hasLoopRef']) {
       // 解决初始化时 onLoad 最先触发，但拿不到子组件 ref 的问题
       Current.current = component
+      Current.index = 0
       component._disableEffect = true
       component._createData(component.state, component.props, true)
       component._disableEffect = false

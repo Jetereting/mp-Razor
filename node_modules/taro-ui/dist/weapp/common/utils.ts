@@ -3,7 +3,7 @@ import { execObject, SelectorQuery } from '@tarojs/taro/types/index'
 
 const ENV = Taro.getEnv()
 
-function delay (delayTime = 500): Promise<null> {
+function delay(delayTime = 500): Promise<null> {
   return new Promise(resolve => {
     if ([Taro.ENV_TYPE.WEB, Taro.ENV_TYPE.SWAN].includes(ENV)) {
       setTimeout(() => {
@@ -15,7 +15,7 @@ function delay (delayTime = 500): Promise<null> {
   })
 }
 
-function delayQuerySelector (
+function delayQuerySelector(
   self,
   selectorStr: string,
   delayTime = 500
@@ -35,7 +35,7 @@ function delayQuerySelector (
   })
 }
 
-function delayGetScrollOffset ({ delayTime = 500 }): Promise<Array<execObject>> {
+function delayGetScrollOffset({ delayTime = 500 }): Promise<Array<execObject>> {
   return new Promise(resolve => {
     delay(delayTime).then(() => {
       Taro.createSelectorQuery()
@@ -48,7 +48,7 @@ function delayGetScrollOffset ({ delayTime = 500 }): Promise<Array<execObject>> 
   })
 }
 
-function delayGetClientRect ({
+function delayGetClientRect({
   self,
   selectorStr,
   delayTime = 500
@@ -69,7 +69,7 @@ function delayGetClientRect ({
   })
 }
 
-function uuid (len = 8, radix = 16): string {
+function uuid(len = 8, radix = 16): string {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.split('')
   const value: string[] = []
   let i = 0
@@ -111,7 +111,7 @@ interface EventDetail {
   y: number
 }
 
-function getEventDetail (event: any) {
+function getEventDetail(event: any): EventDetail {
   let detail: EventDetail
   switch (ENV) {
     case Taro.ENV_TYPE.WEB:
@@ -183,19 +183,26 @@ function getEventDetail (event: any) {
   return detail
 }
 
-function initTestEnv () {
+function initTestEnv(): void {
   if (process.env.NODE_ENV === 'test') {
-    Taro.initPxTransform({ designWidth: 750 })
+    Taro.initPxTransform({
+      designWidth: 750,
+      deviceRatio: {
+        '640': 2.34 / 2,
+        '750': 1,
+        '828': 1.81 / 2
+      }
+    })
   }
 }
 
-function isTest () {
+function isTest(): boolean {
   return process.env.NODE_ENV === 'test'
 }
 
 let scrollTop = 0
 
-function handleTouchScroll (flag) {
+function handleTouchScroll(flag: any): void {
   if (ENV !== Taro.ENV_TYPE.WEB) {
     return
   }
@@ -215,7 +222,7 @@ function handleTouchScroll (flag) {
   }
 }
 
-function pxTransform (size) {
+function pxTransform(size: number): string {
   if (!size) return ''
   return Taro.pxTransform(size)
 }
@@ -230,5 +237,5 @@ export {
   pxTransform,
   handleTouchScroll,
   delayGetClientRect,
-  delayGetScrollOffset,
+  delayGetScrollOffset
 }
