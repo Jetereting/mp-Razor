@@ -9,3 +9,7 @@ page,.index{
   -webkit-animation-duration: 50ms;
   animation-duration: 50ms;
 }
+
+button::after{
+  border: none;
+}

@@ -1,5 +1,10 @@
 <block wx:if="{{$taroCompReady}}">
     <view class="index">
         <image class="{{imgBGClassName}}" style="{{anonymousState__temp}}" src="{{isOn ? imgOn : imgOff}}" bindtap="handleSwitch" data-e-tap-so="this"></image>
+        <view style="display: flex;flex-direction: row;flex-wrap:wrap;">
+            <button bindtap="anonymousFunc0" style="background-color:transparent;border-style:none;border:none;width:52PX;">👈</button>
+            <button open-type="share" style="background-color:transparent;border-style:none;border:none;width:52PX;">👍</button>
+            <button bindtap="anonymousFunc1" style="background-color:transparent;border-style:none;border:none;width:52PX;">👉</button>
+        </view>
     </view>
 </block>

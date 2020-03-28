@@ -20,7 +20,7 @@ export default class Index extends Component {
       imgBGClassName: '',
       clickAudio: Taro.createInnerAudioContext(),
       soundAudio: Taro.createInnerAudioContext(),
-      intervalVibrate: setInterval(() => console.log('开始'), 400)
+      intervalVibrate: setInterval(() => console.log('开始'), 700)
     };
   }
   componentWillMount() {
@@ -48,7 +48,7 @@ export default class Index extends Component {
         this.state.soundAudio.play();
         this.setState({
           imgBGClassName: 'animated infinite headShake faster',
-          intervalVibrate: setInterval(() => Taro.vibrateLong(), 400)
+          intervalVibrate: setInterval(() => Taro.vibrateLong(), 700)
         });
       } else {
         this.setState({
