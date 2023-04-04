@@ -8,6 +8,9 @@
 		"typescript": true,
 		"css": "sass"
 	},
+	"engines": {
+		"node": "v8.11.2 - v14.0.0"
+	},
 	"scripts": {
 		"build:weapp": "taro build --type weapp",
 		"build:swan": "taro build --type swan",
@@ -30,7 +33,7 @@
 	"license": "MIT",
 	"dependencies": {
 		"@tarojs/components": "2.0.7",
-		"@tarojs/mini-runner": "^2.0.7",
+		"@tarojs/mini-runner": "2.0.7",
 		"@tarojs/router": "2.0.7",
 		"@tarojs/taro": "2.0.7",
 		"@tarojs/taro-alipay": "2.0.7",
@@ -46,6 +49,7 @@
 		"taro-ui": "^2.3.1"
 	},
 	"devDependencies": {
+		"@tarojs/cli": "2.0.7",
 		"@tarojs/plugin-babel": "2.0.7",
 		"@tarojs/plugin-csso": "2.0.7",
 		"@tarojs/plugin-sass": "2.0.7",
@@ -66,6 +70,7 @@
 		"eslint-plugin-react": "^7.19.0",
 		"eslint-plugin-react-hooks": "^2.5.1",
 		"eslint-plugin-taro": "2.0.7",
+		"node-sass": "4.5.3",
 		"stylelint": "^13.2.1",
 		"stylelint-config-taro-rn": "2.0.7",
 		"stylelint-taro-rn": "2.0.7",

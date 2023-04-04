@@ -37,7 +37,7 @@ export default class Index extends Component {
     componentWillMount() {
         console.log("componentWillMount")
         // 更新系统参数
-        constant.upParams()
+        // constant.upParams()
         // 检查版本更新
         constant.upApp()
 
@@ -54,20 +54,20 @@ export default class Index extends Component {
         this.clickAudio = Taro.createInnerAudioContext()
         this.soundAudio = Taro.createInnerAudioContext()
         setTimeout(() => {
-            this.clickAudio.src = constant.getParams().razor_click || 'http://gxjs.online/razor/mp3/click.mp3'
-            this.soundAudio.src = constant.getParams().razor_sound01 || 'http://gxjs.online/razor/mp3/sound01.mp3'
-            this.sounds = constant.getParams().razor_array ? JSON.parse(constant.getParams().razor_array) : ["http://gxjs.online/razor/mp3/sound1.mp3",
-                "http://gxjs.online/razor/mp3/sound2.mp3",
-                "http://gxjs.online/razor/mp3/sound3.mp3",
-                "http://gxjs.online/razor/mp3/sound4.mp3",
-                "http://gxjs.online/razor/mp3/sound5.mp3",
-                "http://gxjs.online/razor/mp3/sound6.mp3",
-                "http://gxjs.online/razor/mp3/sound7.mp3",
-                "http://gxjs.online/razor/mp3/sound8.mp3",
-                "http://gxjs.online/razor/mp3/sound9.mp3",
-                "http://gxjs.online/razor/mp3/sound10.mp3",
-                "http://gxjs.online/razor/mp3/sound11.mp3",
-                "http://gxjs.online/razor/mp3/sound12.mp3"]
+            this.clickAudio.src = 'https://ghproxy.com/https://raw.githubusercontent.com/Jetereting/bed_pic/main/razor/click.mp3'
+            this.soundAudio.src = 'https://ghproxy.com/https://raw.githubusercontent.com/Jetereting/bed_pic/main/razor/sound01.mp3'
+            this.sounds = ["https://ghproxy.com/https://raw.githubusercontent.com/Jetereting/bed_pic/main/razor/sound1.mp3",
+                "https://ghproxy.com/https://raw.githubusercontent.com/Jetereting/bed_pic/main/razor/sound2.mp3",
+                "https://ghproxy.com/https://raw.githubusercontent.com/Jetereting/bed_pic/main/razor/sound3.mp3",
+                "https://ghproxy.com/https://raw.githubusercontent.com/Jetereting/bed_pic/main/razor/sound4.mp3",
+                "https://ghproxy.com/https://raw.githubusercontent.com/Jetereting/bed_pic/main/razor/sound5.mp3",
+                "https://ghproxy.com/https://raw.githubusercontent.com/Jetereting/bed_pic/main/razor/sound6.mp3",
+                "https://ghproxy.com/https://raw.githubusercontent.com/Jetereting/bed_pic/main/razor/sound7.mp3",
+                "https://ghproxy.com/https://raw.githubusercontent.com/Jetereting/bed_pic/main/razor/sound8.mp3",
+                "https://ghproxy.com/https://raw.githubusercontent.com/Jetereting/bed_pic/main/razor/sound9.mp3",
+                "https://ghproxy.com/https://raw.githubusercontent.com/Jetereting/bed_pic/main/razor/sound10.mp3",
+                "https://ghproxy.com/https://raw.githubusercontent.com/Jetereting/bed_pic/main/razor/sound11.mp3",
+                "https://ghproxy.com/https://raw.githubusercontent.com/Jetereting/bed_pic/main/razor/sound12.mp3"]
                 this.clickAudio.obeyMuteSwitch = false
                 this.soundAudio.obeyMuteSwitch = false
                 this.soundAudio.loop = true
@@ -136,6 +136,7 @@ export default class Index extends Component {
         })
         this.soundAudio.onError(() => {
             console.log("播放失败")
+            console.log("heshu:",this.soundAudio.src)
         })
 
         this.setState({
